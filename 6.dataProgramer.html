@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Skills Programers</title>
+
+    <style>
+        table,th,td {
+            border: 1px solid black;
+            padding: 10px;
+            border-collapse: collapse;
+            width: 500px;
+            text-align: center;
+        }
+        form {
+            width: 500px
+        }
+    </style>
+
+  </head>
+  <body>
+    <center>
+        <form>
+            <fieldset>
+                <legend>Input Data</legend>
+                Nama User : <br>
+                <input type="text" placeholder="User Name"><br><br>
+                Keahlian : <br>
+                <input type="text" placeholder="Skills"><br><br>
+                Link Picture : <br>
+                <input type="text" placeholder="link picture"><br><br>
+                <input type="button" value="Input" onclick="inputData()">
+            </fieldset>
+        </form>
+        <br><br>
+        <table border=1>
+
+            <thead style="font-style:italic">
+                <th>Picture</th>
+                <th>Name</th>
+                <th>Skills</th>
+                <th>Add Skills</th>
+            </thead>
+            <tbody id='isiTabel'></tbody>
+
+        </table>
+    </center>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+  <script>
+    var data = []
+    var hasilMap = []
+
+    class User {
+        constructor(link, name, skills) {
+            this.link = link
+            this.name = name
+            this.skills = skills
+        }
+    }
+
+    data = [
+        new User('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzTTLRiHtrzgkuyAf8yE0Qawxkjit3wjfSR-DYbEKnC4NxvZFU', 'Ahmad', 'Java')
+    ]
+
+
+    var tampilData = (arr) => {
+        hasilMap = arr.map(function (val, index) {
+
+            return `<tr>
+            <td><img src='${val.link}' width=100px></td>
+            <td>${val.name}</td>
+            <td>${val.skills}</td>
+            <td><input type="button" onclick="hapusData(${index})" value='Delete'><input type="button" onclick="editData(${index})" value='Edit'></td>
+
+        
+        </tr>`
+        })
+
+        document.getElementById('isiTabel').innerHTML = hasilMap.join('')
+    }
+
+    tampilData(data)
+    var inputData = () => {
+        var name = document.getElementsByTagName('input')[0].value
+        var skills = document.getElementsByTagName('input')[1].value
+        var link = document.getElementsByTagName('input')[2].value
+
+        if (name == '' || skills == '' || link == '') {
+            alert('Cant be empty!')
+        } else {
+            var userBr = new User(link, name, skills)
+            data.push(userBr)
+            document.getElementsByTagName('input')[0].value = ''
+            document.getElementsByTagName('input')[1].value = ''
+            document.getElementsByTagName('input')[2].value = ''
+        }
+        tampilData(data)
+    }
+
+
+    var hapusData = (index) => {
+        if (window.confirm('Do you want to delete ' + data[index].name + ' ?')) {
+            data.splice(index, 1)
+        }
+        tampilData(data)
+    }
+
+    var tempEdit = []
+    var editData = (index_user) => {
+        tempEdit = data.map(function (val, index) {
+
+            if (index_user == index) {
+                // alert('masuk edit')
+
+                return `<tr>
+            <td><input type="text" id="${index_user}+1" value="${val.link}"></td>
+            <td><input type="text" id="${index_user}+2"value="${val.name}"</td>
+            <td><input type="text" id="${index_user}+3" value='${val.skills}'></td>
+            <td><input type="button" onclick="saveData(${index_user})" value='Save'> <input type="button" value="Cancel"  onclick="tampil()"></td>
+
+        
+        </tr>`
+
+            } else {
+                // alert('masuk edit selain')
+
+                return `<tr>
+            <td><img src='${val.link}' width=50px></td>
+            <td>${val.name}</td>
+            <td>${val.skills}</td>
+            <td><input type="button" onclick="hapusData(${index})" value='Delete'> <input type="button" value="Edit" onclick="editData(${index})"></td>
+
+        
+        </tr>`
+            }
+        })
+        // alert(tempEdit)
+
+        document.getElementById('isiTabel').innerHTML = tempEdit.join('')
+    }
+
+    var saveData = (index) => {
+        // alert('masuk saves')
+
+        linkPr = document.getElementById(`${index}+1`).value
+        namePr = document.getElementById(`${index}+2`).value
+        skillsPr = document.getElementById(`${index}+3`).value
+
+        data[index].link = linkPr
+        data[index].name = namePr
+        data[index].skills = skillsPr
+        tampilData(data)
+    }
+  
+    
+
+   
+</script>
+</html>
+
+
+
+
