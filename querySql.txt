@@ -1,0 +1,2 @@
+select name, count(*) skill from skills 
+join users on userId = users.id  where userId=1;
