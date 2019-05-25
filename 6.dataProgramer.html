@@ -81,13 +81,23 @@
             <td><img src='${val.link}' width=100px></td>
             <td>${val.name}</td>
             <td>${val.skills}</td>
-            <td><input type="button" onclick="hapusData(${index})" value='Delete'><input type="button" onclick="editData(${index})" value='Edit'></td>
+            <td><input type="text" id="${index}+1" placeholder="Masukkan skill baru"><input type="button"  value="Add" onclick="addData(${index})"></td>
 
         
         </tr>`
         })
 
         document.getElementById('isiTabel').innerHTML = hasilMap.join('')
+    }
+
+    var addData = (index) => {
+        var skill = document.getElementById(`${index}+1`).value
+        if (skill == '') {
+            alert('Mohon masukkan skill')
+        } else {
+            data[index].skills += ', ' + skill 
+        }
+            tampilData(data)
     }
 
     tampilData(data)
@@ -109,46 +119,7 @@
     }
 
 
-    var hapusData = (index) => {
-        if (window.confirm('Do you want to delete ' + data[index].name + ' ?')) {
-            data.splice(index, 1)
-        }
-        tampilData(data)
-    }
-
-    var tempEdit = []
-    var editData = (index_user) => {
-        tempEdit = data.map(function (val, index) {
-
-            if (index_user == index) {
-                // alert('masuk edit')
-
-                return `<tr>
-            <td><input type="text" id="${index_user}+1" value="${val.link}"></td>
-            <td><input type="text" id="${index_user}+2"value="${val.name}"</td>
-            <td><input type="text" id="${index_user}+3" value='${val.skills}'></td>
-            <td><input type="button" onclick="saveData(${index_user})" value='Save'> <input type="button" value="Cancel"  onclick="tampil()"></td>
-
-        
-        </tr>`
-
-            } else {
-                // alert('masuk edit selain')
-
-                return `<tr>
-            <td><img src='${val.link}' width=50px></td>
-            <td>${val.name}</td>
-            <td>${val.skills}</td>
-            <td><input type="button" onclick="hapusData(${index})" value='Delete'> <input type="button" value="Edit" onclick="editData(${index})"></td>
-
-        
-        </tr>`
-            }
-        })
-        // alert(tempEdit)
-
-        document.getElementById('isiTabel').innerHTML = tempEdit.join('')
-    }
+    
 
     var saveData = (index) => {
         // alert('masuk saves')

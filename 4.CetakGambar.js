@@ -2,16 +2,27 @@ function cetakGambar(parameter){
     if(parameter %2 == 0){
         console.log("Parameter harus Bernilai Ganjil")
     }else{
-        var jumlah = 0
-        for(var i = 0; i < parameter; i++) {
-            for( var j=0; j=i; j++){ 
-                jumlah++
-            }    
-            jumlah =+ '\n'      
+        var gambar = ''
+        var center = parameter - ((parameter-1)/2)
+        for(var i = 1; i <= parameter; i++) {
+            for(var j = 1; j<=parameter; j++){ 
+                if(i == 1 || i == 5){
+                    gambar += 'X '                   
+                }else{
+                    if(j == center){
+                        gambar += 'X '
+                    }else{
+                    gambar += '= '
+                    }
+                }       
+            }
+            gambar += '\n'
+
+            }
         }      
-    }
-        return jumlah
+    
+        return gambar
 }
 
 
-console.log(cetakGambar(4))
+console.log(cetakGambar(5))

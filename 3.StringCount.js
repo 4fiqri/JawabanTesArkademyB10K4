@@ -1,13 +1,10 @@
-function myCountChar(text,param){
-    var arr = text.split("",text.length)
-    var jumlah = 0
-
-    for (var i = 0; i < arr.length; i++) {
-            if (arr[i] == param) {
-                jumlah++
-            }                
+function vocal(text){
+    var aiueo = text.toUpperCase()
+    var hapus = aiueo.replace(/['A','I','U','E','O']/g,'');
+    var aw = aiueo.length
+    var ak = hapus.length
+    // var hasil = `jumlah huruf vocal pada kalimat ${aiueo} ada sebanyak ${aw - ak}`
+    // var hasilhapus = 'setelah hurup vocal dihapus, kalimat '+aiueo+ ' menjadi '+hapus
+    return aw-ak
     }
-    return jumlah
-}
-
-console.log(myCountChar("arkademy", "k"))
+    console.log (vocal('programmer'))
